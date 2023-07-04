@@ -1,4 +1,4 @@
-tool
+@tool
 extends EditorPlugin
 
 var list_item_load
@@ -6,8 +6,8 @@ var dock
 var search_result_container
 
 var node_types: Array = ["AudioStreamPlayer", "AudioStreamPlayer2D", "AudioStreamPlayer3D",\
-	"Spatial", "Node2D", "MeshInstance", "Node", "Control", "AnimationPlayer", "CollisionShape",\
-	"CollisionShape2D", "Room", "Skeleton", "Skeleton2D"]
+	"Node3D", "Node2D", "MeshInstance3D", "Node", "Control", "AnimationPlayer", "CollisionShape3D",\
+	"CollisionShape2D", "Room", "Skeleton3D", "Skeleton2D"]
 
 var tscns: Dictionary = {}
 # we only care about the keys of this dictionary
@@ -16,18 +16,18 @@ var text_filter: String = ""
 var regex_filter: RegEx = RegEx.new()
 
 func _enter_tree():
-	dock = preload("res://addons/advanced_search/AdvancedSearch.tscn").instance()
+	dock = preload("res://addons/advanced_search/AdvancedSearch.tscn").instantiate()
 	list_item_load = preload("res://addons/advanced_search/ListItem.tscn")
 	add_control_to_dock(DOCK_SLOT_LEFT_BR, dock)
-	dock.get_node("Search").connect("pressed", self, "search")
-	dock.get_node("%LineEdit").connect("text_changed", self, "update_text_filter")
+	dock.get_node("Search").connect("pressed", Callable(self, "search"))
+	dock.get_node("%LineEdit").connect("text_changed", Callable(self, "update_text_filter"))
 	search_result_container = dock.get_node("%SearchResults")
 	var node_type_list = dock.get_node("%NodeTypeList")
 	node_types.sort()
 	for node_type in node_types:
 		var node_list_item = CheckBox.new()
 		node_list_item.text = node_type
-		node_list_item.connect("toggled", self, "update_node_type", [node_type])
+		node_list_item.connect("toggled", Callable(self, "update_node_type").bind(node_type))
 		node_type_list.add_child(node_list_item)
 
 func _exit_tree():
@@ -49,10 +49,9 @@ func update_node_type(pressed, node_type):
 func get_all_tscns():
 	var folders = []
 	var tscns = []
-	var dir = Directory.new()
 	var path = "res://"
-	dir.open(path)
-	dir.list_dir_begin()
+	var dir = DirAccess.open(path)
+	dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	
 	# initial loop through the uppermost directory, filtering out addons and builds
 	while true:
@@ -70,10 +69,10 @@ func get_all_tscns():
 	
 	# loop through the rest of the files
 	# I deliberately chose not to use recursion here
-	while !folders.empty():
+	while !folders.is_empty():
 		path = folders.front()
 		dir.open(path)
-		dir.list_dir_begin()
+		dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		
 		while true:
 			var file = dir.get_next()
@@ -100,8 +99,7 @@ func compile_text_filter():
 
 func filter_tscns(file) -> bool:
 	var filter_pass: bool = false
-	var f = File.new()
-	f.open(file, File.READ)
+	var f = FileAccess.open(file, FileAccess.READ)
 	while not f.eof_reached(): # iterate through all lines until the end of file is reached
 		var line: String = f.get_line()
 		# only check node header lines
@@ -124,15 +122,15 @@ func search():
 	var result_labels = search_result_container.get_children()
 	var index: int = 0
 	while result_labels.size() <= tscns.size():
-		var list_item = list_item_load.instance()
+		var list_item = list_item_load.instantiate()
 		search_result_container.add_child(list_item)
 		result_labels.append(list_item)
 	for tscn in tscns:
 		result_labels[index].visible = true
 		result_labels[index].text = tscn
-		if result_labels[index].is_connected("pressed", self, "scene_clicked"):
-			result_labels[index].disconnect("pressed", self, "scene_clicked")
-		result_labels[index].connect("pressed", self, "scene_clicked", [tscns[tscn]])
+		if result_labels[index].is_connected("pressed", Callable(self, "scene_clicked")):
+			result_labels[index].disconnect("pressed", Callable(self, "scene_clicked"))
+		result_labels[index].connect("pressed", Callable(self, "scene_clicked").bind(tscns[tscn]))
 		index += 1
 	while index < result_labels.size():
 		result_labels[index].visible = false
