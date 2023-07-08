@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bsclcm1dk1xph"]
 
 [ext_resource type="PackedScene" uid="uid://bpryjurbsm8k8" path="res://Prefabs/Player.tscn" id="1_go1xk"]
-[ext_resource type="Script" path="res://Scenes/TileMap.gd" id="2_m05v8"]
+[ext_resource type="Script" path="res://Scripts/TileMap.gd" id="2_eqir7"]
 [ext_resource type="Texture2D" uid="uid://bu4ibeyx03u5c" path="res://Assets/terrain_3.png" id="2_t6im1"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_e6ot7"]
@@ -4702,7 +4702,7 @@ layer_3/y_sort_enabled = false
 layer_3/y_sort_origin = 0
 layer_3/z_index = 1
 layer_3/tile_data = PackedInt32Array(655387, 196609, 6, 720923, 196609, 7)
-script = ExtResource("2_m05v8")
+script = ExtResource("2_eqir7")
 
 [node name="Player" parent="." instance=ExtResource("1_go1xk")]
 position = Vector2(578, 325)
