@@ -9,9 +9,9 @@ var bullet = preload("res://Prefabs/Bullet.tscn")
 
 var move = Vector2(0,0)
 var tile_highlight = null
-var current_weapon = WeaponEnum.DIG
+var current_weapon = WeaponEnum.Weapon.DIG
 
-func _process(delta):
+func _process(_delta):
 	movement()
 	mouselook()
 	if Input.is_action_pressed("ShowRadialMenu") and !$Control.visible:
@@ -33,6 +33,7 @@ func _input(event):
 
 func shoot_bullet():
 	var new_bullet = bullet.instantiate()
+	new_bullet.weapon = current_weapon
 	add_child(new_bullet)
 	new_bullet.transform = $Muzzle.transform
 	new_bullet.look_at(get_global_mouse_position())
@@ -60,22 +61,19 @@ func movement():
 	velocity.y = lerp(velocity.y, move.y * move_speed, acceleration)
 	move_and_slide()
 
-func _on_tile_query_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
+func _on_tile_query_body_shape_entered(body_rid, body, _body_shape_index, _local_shape_index):
 	assert(is_instance_valid(GlobalTileMap.map))
 	var coords = body.get_coords_for_body_rid(body_rid)
 	tile_highlight = coords
 
 func _on_dig_pressed():
-	print("Dig")
-	current_weapon = WeaponEnum.DIG
+	current_weapon = WeaponEnum.Weapon.DIG
 
 func _on_water_pressed():
-	print("Water")
-	current_weapon = WeaponEnum.WATER
+	current_weapon = WeaponEnum.Weapon.WATER
 
 func _on_plant_pressed():
-	print("Plant")
-	current_weapon = WeaponEnum.PLANT
+	current_weapon = WeaponEnum.Weapon.PLANT
 
 func _on_radial_menu_hovered(child):
 	%Selection.text = child.name

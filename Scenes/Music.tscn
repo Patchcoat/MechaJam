@@ -98,6 +98,7 @@ transitions = ["Start", "Song1", SubResource("AnimationNodeStateMachineTransitio
 
 [node name="Music" type="Node" node_paths=PackedStringArray("start_music")]
 script = ExtResource("1_rv5qa")
+menu = true
 start_music = NodePath("Song1")
 
 [node name="Song1" type="AudioStreamPlayer" parent="." groups=["Music"]]

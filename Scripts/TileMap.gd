@@ -11,11 +11,10 @@ func make_dirt(cordinates):
 	# place the dirt
 	set_cell(0, cordinates, 1, Vector2i(4, 21))
 
-func plant_seed(coordinates, seed):
-	if tile_state.has(coordinates):
-		print("Nope")
+func plant_seed(coordinates, plant):
+	if tile_state.has(coordinates) or plant == null:
 		return
-	var new_plant = seed.instantiate()
+	var new_plant = plant.instantiate()
 	new_plant.position = map_to_local(coordinates)
 	GlobalTileMap.map.add_child(new_plant)
 	tile_state[coordinates] = true
@@ -37,13 +36,13 @@ func use_tilemap(world_coordinate, current_weapon, seeds = null):
 	var tile_type = tile_data.get_custom_data("Type")
 	print(tile_coordinate)
 	# digging grass
-	if current_weapon == WeaponEnum.DIG and tile_type == 1:
+	if current_weapon == WeaponEnum.Weapon.DIG and tile_type == 1:
 		make_dirt(tile_coordinate)
 	# watering dirt
-	if current_weapon == WeaponEnum.WATER and tile_type == 2:
+	if current_weapon == WeaponEnum.Weapon.WATER and tile_type == 2:
 		water_dirt(tile_coordinate)
 	# planting
-	if current_weapon == WeaponEnum.PLANT and tile_type == 2:
+	if current_weapon == WeaponEnum.Weapon.PLANT and tile_type == 2:
 		plant_seed(tile_coordinate, seeds)
 
 func water_dirt(cordinates):
