@@ -1,24 +1,8 @@
 [gd_scene load_steps=15 format=3 uid="uid://k7ldhs0j60fc"]
 
 [ext_resource type="Script" path="res://Scripts/Music.gd" id="1_rv5qa"]
-[ext_resource type="AudioStream" uid="uid://cder3vu6tgpxa" path="res://Assets/Music/Industrial_Loop.ogg" id="2_dxp4n"]
-[ext_resource type="AudioStream" uid="uid://c7g3h24fu66l4" path="res://Assets/Music/MainFarmingGameplayLoop.ogg" id="3_fe8px"]
-
-[sub_resource type="Animation" id="Animation_5r2as"]
-resource_name = "Song1"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Song1:volume_db")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
+[ext_resource type="AudioStream" uid="uid://cekyr42ud8bwa" path="res://Assets/Music/Farming_Loop_Full.ogg" id="2_1qc87"]
+[ext_resource type="AudioStream" uid="uid://c56mfhgjvmy23" path="res://Assets/Music/Combat_Loop_Full.ogg" id="3_rvmof"]
 
 [sub_resource type="Animation" id="Animation_eyfi3"]
 length = 0.001
@@ -46,6 +30,22 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [-80.0]
+}
+
+[sub_resource type="Animation" id="Animation_5r2as"]
+resource_name = "Song1"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Song1:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_oqr2d"]
@@ -101,12 +101,12 @@ script = ExtResource("1_rv5qa")
 start_music = NodePath("Song1")
 
 [node name="Song1" type="AudioStreamPlayer" parent="." groups=["Music"]]
-stream = ExtResource("2_dxp4n")
+stream = ExtResource("2_1qc87")
 volume_db = -80.0
 bus = &"Music"
 
 [node name="Song2" type="AudioStreamPlayer" parent="." groups=["Music"]]
-stream = ExtResource("3_fe8px")
+stream = ExtResource("3_rvmof")
 volume_db = -80.0
 bus = &"Music"
 

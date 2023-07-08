@@ -4676,6 +4676,7 @@ sources/1 = SubResource("TileSetAtlasSource_16ti4")
 pattern_0 = SubResource("TileMapPattern_e6ot7")
 
 [node name="MainScene" type="Node2D"]
+position = Vector2(281, 107)
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_3htry")
