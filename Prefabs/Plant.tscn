@@ -1,0 +1,18 @@
+[gd_scene load_steps=7 format=3 uid="uid://bhkl6ywxddexa"]
+
+[ext_resource type="Script" path="res://Scripts/Plant.gd" id="1_3crlq"]
+[ext_resource type="Texture2D" uid="uid://da3puy0505knf" path="res://Assets/Crops/Crop1.tres" id="1_8ayn1"]
+[ext_resource type="Texture2D" uid="uid://okccc13pxm3g" path="res://Assets/Crops/Crop2.tres" id="3_5ow4b"]
+[ext_resource type="Texture2D" uid="uid://cj404ajp1afii" path="res://Assets/Crops/Crop3.tres" id="4_blfut"]
+[ext_resource type="Texture2D" uid="uid://outivgbl7n40" path="res://Assets/Crops/Crop4.tres" id="5_eesf3"]
+[ext_resource type="Texture2D" uid="uid://btxxqomesq7kh" path="res://Assets/Crops/Crop5.tres" id="6_frtk6"]
+
+[node name="Plant" type="Sprite2D"]
+texture = ExtResource("1_8ayn1")
+script = ExtResource("1_3crlq")
+plant_cycle = [ExtResource("1_8ayn1"), ExtResource("3_5ow4b"), ExtResource("4_blfut"), ExtResource("5_eesf3"), ExtResource("6_frtk6")]
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
