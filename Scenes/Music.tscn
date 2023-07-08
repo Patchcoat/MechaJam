@@ -1,0 +1,122 @@
+[gd_scene load_steps=15 format=3 uid="uid://k7ldhs0j60fc"]
+
+[ext_resource type="Script" path="res://Scripts/Music.gd" id="1_rv5qa"]
+[ext_resource type="AudioStream" uid="uid://cder3vu6tgpxa" path="res://Assets/Music/Industrial_Loop.ogg" id="2_dxp4n"]
+[ext_resource type="AudioStream" uid="uid://c7g3h24fu66l4" path="res://Assets/Music/MainFarmingGameplayLoop.ogg" id="3_fe8px"]
+
+[sub_resource type="Animation" id="Animation_5r2as"]
+resource_name = "Song1"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Song1:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_eyfi3"]
+length = 0.001
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Song1:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-80.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Song2:volume_db")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-80.0]
+}
+
+[sub_resource type="Animation" id="Animation_oqr2d"]
+resource_name = "Song2"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Song2:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cumkn"]
+_data = {
+"RESET": SubResource("Animation_eyfi3"),
+"Song1": SubResource("Animation_5r2as"),
+"Song2": SubResource("Animation_oqr2d")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_64m1t"]
+animation = &"Song1"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b70xc"]
+animation = &"Song2"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_orgew"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_c74gs"]
+xfade_time = 1.0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_is3uy"]
+xfade_time = 1.0
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_jswrh"]
+states/Song1/node = SubResource("AnimationNodeAnimation_64m1t")
+states/Song1/position = Vector2(485, 34)
+states/Song2/node = SubResource("AnimationNodeAnimation_b70xc")
+states/Song2/position = Vector2(485, 125)
+states/Start/position = Vector2(191, 54)
+transitions = ["Start", "Song1", SubResource("AnimationNodeStateMachineTransition_orgew"), "Song1", "Song2", SubResource("AnimationNodeStateMachineTransition_c74gs"), "Song2", "Song1", SubResource("AnimationNodeStateMachineTransition_is3uy")]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_gvsmw"]
+
+[node name="Music" type="Node" node_paths=PackedStringArray("start_music")]
+script = ExtResource("1_rv5qa")
+start_music = NodePath("Song1")
+
+[node name="Song1" type="AudioStreamPlayer" parent="." groups=["Music"]]
+stream = ExtResource("2_dxp4n")
+volume_db = -80.0
+bus = &"Music"
+
+[node name="Song2" type="AudioStreamPlayer" parent="." groups=["Music"]]
+stream = ExtResource("3_fe8px")
+volume_db = -80.0
+bus = &"Music"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_cumkn")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_jswrh")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_gvsmw")

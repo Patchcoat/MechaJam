@@ -25,6 +25,11 @@ func _input(event):
 			pass
 		elif tile_highlight != null:
 			shoot_bullet()
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_T:
+			Music.transition("Song1")
+		elif event.keycode == KEY_R:
+			Music.transition("Song2")
 
 func shoot_bullet():
 	var new_bullet = bullet.instantiate()

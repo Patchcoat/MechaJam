@@ -15,9 +15,14 @@ run/main_scene="res://Scenes/MainScene.tscn"
 config/features=PackedStringArray("4.0")
 config/icon="res://icon.png"
 
+[audio]
+
+buses/default_bus_layout="res://AudioBus.tres"
+
 [autoload]
 
 GlobalTileMap="*res://Scripts/tile_map_global.gd"
+Music="*res://Scenes/Music.tscn"
 
 [editor_plugins]
 
