@@ -1,8 +1,7 @@
 extends CharacterBody2D
 
-enum {DIG, PLANT, WATER}
-
 var plant_seeds = preload("res://Prefabs/Plant.tscn")
+var bullet = preload("res://Prefabs/Bullet.tscn")
 
 @export var move_speed = 300
 @export var acceleration = 0.2
@@ -10,7 +9,7 @@ var plant_seeds = preload("res://Prefabs/Plant.tscn")
 
 var move = Vector2(0,0)
 var tile_highlight = null
-var current_weapon = DIG
+var current_weapon = WeaponEnum.DIG
 
 func _process(delta):
 	movement()
@@ -21,39 +20,23 @@ func _process(delta):
 		$Control.visible = false
 
 func _input(event):
-	if event.is_action_pressed("Select"):
+	if event.is_action_pressed("Fire"):
 		if $Control.visible:
 			pass
 		elif tile_highlight != null:
-			select()
+			shoot_bullet()
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_T:
+			Music.transition("Song1")
+		elif event.keycode == KEY_R:
+			Music.transition("Song2")
 
-func select():
-	assert(is_instance_valid(GlobalTileMap.map))
-	var layer = 2
-	var tile_data = GlobalTileMap.map.get_cell_tile_data(layer, tile_highlight)
-	# don't select a tile if it's on the overlay layer
-	if is_instance_valid(tile_data):
-		return
-	layer -= 1
-	tile_data = GlobalTileMap.map.get_cell_tile_data(layer, tile_highlight)
-	# check that the grass exists
-	if !is_instance_valid(tile_data):
-		# if not, select the dirt
-		layer -= 1
-		tile_data = GlobalTileMap.map.get_cell_tile_data(layer, tile_highlight)
-	var tile_type = tile_data.get_custom_data("Type")
-	print(tile_type)
-	# digging grass
-	if current_weapon == DIG and tile_type == 1:
-		GlobalTileMap.map.make_dirt(tile_highlight)
-	# watering dirt
-	if current_weapon == WATER and tile_type == 2:
-		GlobalTileMap.map.water_dirt(tile_highlight)
-	# planting
-	if current_weapon == PLANT and tile_type == 2:
-		var new_plant = plant_seeds.instantiate()
-		new_plant.position = GlobalTileMap.map.map_to_local(tile_highlight)
-		GlobalTileMap.map.add_child(new_plant)
+func shoot_bullet():
+	var new_bullet = bullet.instantiate()
+	add_child(new_bullet)
+	new_bullet.transform = $Muzzle.transform
+	new_bullet.look_at(get_global_mouse_position())
+	new_bullet.destination = get_global_mouse_position()
 
 func mouselook():
 	var mouse_position = get_viewport().get_mouse_position() / get_viewport().get_visible_rect().size
@@ -84,15 +67,15 @@ func _on_tile_query_body_shape_entered(body_rid, body, body_shape_index, local_s
 
 func _on_dig_pressed():
 	print("Dig")
-	current_weapon = DIG
+	current_weapon = WeaponEnum.DIG
 
 func _on_water_pressed():
 	print("Water")
-	current_weapon = WATER
+	current_weapon = WeaponEnum.WATER
 
 func _on_plant_pressed():
 	print("Plant")
-	current_weapon = PLANT
+	current_weapon = WeaponEnum.PLANT
 
 func _on_radial_menu_hovered(child):
 	%Selection.text = child.name

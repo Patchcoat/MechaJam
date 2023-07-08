@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://btxxqomesq7kh" path="res://Assets/Crops/Crop5.tres" id="6_frtk6"]
 
 [node name="Plant" type="Sprite2D"]
+texture_filter = 1
 texture = ExtResource("1_8ayn1")
 script = ExtResource("1_3crlq")
 plant_cycle = [ExtResource("1_8ayn1"), ExtResource("3_5ow4b"), ExtResource("4_blfut"), ExtResource("5_eesf3"), ExtResource("6_frtk6")]
