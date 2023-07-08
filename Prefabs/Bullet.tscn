@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://di1bilqcaumd3"]
+[gd_scene load_steps=6 format=3 uid="uid://di1bilqcaumd3"]
 
 [ext_resource type="Script" path="res://Scripts/Bullet.gd" id="1_5dshf"]
 [ext_resource type="Texture2D" uid="uid://q36mp36pcvl" path="res://Assets/Bullet.png" id="1_k7psi"]
+[ext_resource type="PackedScene" uid="uid://bhkl6ywxddexa" path="res://Prefabs/Plant.tscn" id="2_h4vsg"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fjbil"]
 radius = 4.12311
@@ -11,6 +12,7 @@ size = Vector2(13, 8)
 
 [node name="Bullet" type="Area2D"]
 script = ExtResource("1_5dshf")
+seeds = ExtResource("2_h4vsg")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

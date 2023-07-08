@@ -1,3 +1,3 @@
 class_name WeaponEnum
 
-enum {DIG, PLANT, WATER}
+enum Weapon {DIG, PLANT, WATER}
