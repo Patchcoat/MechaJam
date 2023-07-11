@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://btyp5mtt8flbl"]
+
+[ext_resource type="PackedScene" uid="uid://c5jkfppqx7pet" path="res://Assets/3d/Mech_Rig_02.fbx" id="1_xjmjp"]
+[ext_resource type="PackedScene" uid="uid://bho4r56q5q5bv" path="res://Assets/3d/Mech_Rig_Shoot_ground_02.fbx" id="2_2spgl"]
+[ext_resource type="Material" uid="uid://dgvx1okg6em2d" path="res://Assets/3d/Metal_Object_01.tres" id="3_fkhwk"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Mech_Rig_02" parent="." instance=ExtResource("1_xjmjp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0821, 0, 0)
+
+[node name="Mech_Rig_Shoot_ground_02" parent="." instance=ExtResource("2_2spgl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.98633, 0, 0)
+
+[node name="Skeleton3D" parent="Mech_Rig_Shoot_ground_02/RootNode/Mech_Rig_001" index="0"]
+bones/1/rotation = Quaternion(0.0178761, 0.0030768, -0.00270961, 0.999832)
+bones/2/rotation = Quaternion(-0.0341121, -0.00302287, -0.0025103, 0.99941)
+bones/3/rotation = Quaternion(0.0162567, -0.000189905, 0.00516564, 0.999855)
+bones/13/rotation = Quaternion(-0.00498687, 0, 0, 0.999988)
+bones/14/rotation = Quaternion(-0.00129544, 0, 0, 0.999999)
+
+[node name="GrowingThing" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="GrowingThing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.493892, 0)
+size = Vector3(0.1, 1, 0.1)
+material = ExtResource("3_fkhwk")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="GrowingThing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0461776, 0)
+height = 0.1
+material = ExtResource("3_fkhwk")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="GrowingThing"]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0, 0.416339, 0.191286)
+size = Vector3(0.5, 0.5, 0.05)
+material = ExtResource("3_fkhwk")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="GrowingThing"]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, -0.013554, 0.446683, -0.192042)
+size = Vector3(0.5, 0.5, 0.05)
+material = ExtResource("3_fkhwk")
+
+[editable path="Mech_Rig_Shoot_ground_02"]

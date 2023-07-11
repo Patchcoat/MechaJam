@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://p7l418vk1vr7"]
+
+[ext_resource type="PackedScene" uid="uid://bho4r56q5q5bv" path="res://Assets/3d/Mech_Rig_Shoot_ground_02.fbx" id="1_fg8p4"]
+
+[node name="Mech_Rig_Shoot_ground_02" instance=ExtResource("1_fg8p4")]
+
+[node name="Skeleton3D" parent="RootNode/Mech_Rig_001" index="0"]
+bones/0/position = Vector3(0, 2.8956, -0.00104768)
+bones/1/rotation = Quaternion(0.0225828, 0.00344529, -0.00271306, 0.999735)
+bones/2/rotation = Quaternion(-0.0330229, -0.00301611, -0.0025009, 0.999447)
+bones/3/rotation = Quaternion(0.0104633, -0.000848397, 0.00516678, 0.999931)
+bones/6/rotation = Quaternion(0.212148, 0.164319, 0.0709828, 0.960705)
+bones/7/rotation = Quaternion(-1.01177e-17, -0.121869, -6.48555e-18, 0.992546)
+bones/8/rotation = Quaternion(-0.461749, 4.48564e-18, -8.61682e-18, 0.887011)
+bones/9/rotation = Quaternion(0.621965, -0.10431, 0.0840929, 0.771497)
+bones/13/rotation = Quaternion(0.000191909, -0.00048623, 0.000212101, 1)
+bones/14/rotation = Quaternion(-0.000861225, 0.000106317, 0.000106712, 0.999999)
+bones/15/rotation = Quaternion(0.000650182, 0.000250358, -0.000488444, 1)
+
+[node name="Foot_L_Ctrl" parent="RootNode" index="3"]
+transform = Transform3D(1.00162, 0, 0, 0, 2.27194, 0, 0, 0, 2.74375, 1.10666, 1.1321, 4.77595e-07)
+
+[node name="Foot_R_Ctrl" parent="RootNode" index="4"]
+transform = Transform3D(1.0002, 0, 0, 0, 2.26873, 0, 0, 0, 2.73988, -1.1051, 1.13051, 4.76925e-07)
+
+[node name="Hip_Ctrl" parent="RootNode" index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8956, -0.00102196)
+
+[node name="Torso_Ctrl" parent="RootNode" index="7"]
+transform = Transform3D(0.935921, -0.0666673, 0.345842, 0.206107, 0.899909, -0.384295, -0.285606, 0.430951, 0.855985, 0, 3.2258, 0.0090788)
