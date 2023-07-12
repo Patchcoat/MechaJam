@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://btyp5mtt8flbl"]
+[gd_scene load_steps=8 format=3 uid="uid://btyp5mtt8flbl"]
 
 [ext_resource type="PackedScene" uid="uid://c5jkfppqx7pet" path="res://Assets/3d/Mech_Rig_02.fbx" id="1_xjmjp"]
 [ext_resource type="PackedScene" uid="uid://bho4r56q5q5bv" path="res://Assets/3d/Mech_Rig_Shoot_ground_02.fbx" id="2_2spgl"]
-[ext_resource type="Material" uid="uid://dgvx1okg6em2d" path="res://Assets/3d/Metal_Object_01.tres" id="3_fkhwk"]
+[ext_resource type="PackedScene" uid="uid://byxf4gb06da1j" path="res://Assets/3d/Tower_Structure_Bullets.fbx" id="3_pdtbf"]
+[ext_resource type="PackedScene" uid="uid://b8epbj7n0q3d2" path="res://Assets/3d/Tower_Structure_Missile.fbx" id="4_k65t1"]
+[ext_resource type="PackedScene" uid="uid://cwh3bgijnc6ej" path="res://Assets/3d/Missile.fbx" id="5_7d8tc"]
+[ext_resource type="PackedScene" uid="uid://bcptp4t8djco2" path="res://Assets/3d/Bullet.fbx" id="6_302ah"]
+[ext_resource type="PackedScene" uid="uid://cb12l1wln7agg" path="res://Assets/3d/Bullet_Long.fbx" id="7_qenf5"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -19,26 +23,19 @@ bones/3/rotation = Quaternion(0.0162567, -0.000189905, 0.00516564, 0.999855)
 bones/13/rotation = Quaternion(-0.00498687, 0, 0, 0.999988)
 bones/14/rotation = Quaternion(-0.00129544, 0, 0, 0.999999)
 
-[node name="GrowingThing" type="Node3D" parent="."]
+[node name="Tower_Structure_Bullets" parent="." instance=ExtResource("3_pdtbf")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -2.22994, 0, -0.043051)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="GrowingThing"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.493892, 0)
-size = Vector3(0.1, 1, 0.1)
-material = ExtResource("3_fkhwk")
+[node name="Tower_Structure_Missile" parent="." instance=ExtResource("4_k65t1")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 1.08222, 0, -0.00415719)
 
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="GrowingThing"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0461776, 0)
-height = 0.1
-material = ExtResource("3_fkhwk")
+[node name="Missile" parent="." instance=ExtResource("5_7d8tc")]
+transform = Transform3D(5, 0, 0, 0, 4.97781, -0.470542, 0, 0.470542, 4.97781, 2.85154, 0.767584, -0.151139)
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="GrowingThing"]
-transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0, 0.416339, 0.191286)
-size = Vector3(0.5, 0.5, 0.05)
-material = ExtResource("3_fkhwk")
+[node name="Bullet" parent="." instance=ExtResource("6_302ah")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -3.8744, 0.237313, -0.00441265)
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="GrowingThing"]
-transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, -0.013554, 0.446683, -0.192042)
-size = Vector3(0.5, 0.5, 0.05)
-material = ExtResource("3_fkhwk")
+[node name="Bullet_Long" parent="." instance=ExtResource("7_qenf5")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -4.48169, 0.119787, -0.0324581)
 
 [editable path="Mech_Rig_Shoot_ground_02"]

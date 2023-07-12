@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cibg75kd6x53j"
-path="res://.godot/imported/Bullet_Grow0 (7).png-ab364b93e00cabe445fa99b037c4c76e.ctex"
+uid="uid://ptmtppqshi65"
+path="res://.godot/imported/Bullet_Grow0 (11).png-b2e61e20c83ec7a912406f722498dd08.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/3d/Bullet_Plant_PngSequence/Bullet_Grow0 (7).png"
-dest_files=["res://.godot/imported/Bullet_Grow0 (7).png-ab364b93e00cabe445fa99b037c4c76e.ctex"]
+source_file="res://Assets/Crops/Bullet_Plant_PngSequence/Bullet_Grow0 (11).png"
+dest_files=["res://.godot/imported/Bullet_Grow0 (11).png-b2e61e20c83ec7a912406f722498dd08.ctex"]
 
 [params]
 

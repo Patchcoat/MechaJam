@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bwshj472l824t"
-path="res://.godot/imported/Bullet_Grow0 (5).png-2ee888fac4c5d206a2fbd6b1dbd5e700.ctex"
+uid="uid://cxbncm2xoxyfe"
+path="res://.godot/imported/Missile_Tower_003.png-4622dc2705b2e50856de72886a689366.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/3d/Bullet_Plant_PngSequence/Bullet_Grow0 (5).png"
-dest_files=["res://.godot/imported/Bullet_Grow0 (5).png-2ee888fac4c5d206a2fbd6b1dbd5e700.ctex"]
+source_file="res://Assets/Crops/Missile_Plant_PngSequence/Missile_Tower_003.png"
+dest_files=["res://.godot/imported/Missile_Tower_003.png-4622dc2705b2e50856de72886a689366.ctex"]
 
 [params]
 
