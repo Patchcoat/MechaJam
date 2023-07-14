@@ -1,0 +1,121 @@
+[gd_scene load_steps=11 format=3 uid="uid://cw1fveb53ob6p"]
+
+[ext_resource type="Script" path="res://Scripts/Enemy.gd" id="1_20m3r"]
+[ext_resource type="Shader" path="res://Assets/Shaders/Pixelize.gdshader" id="2_rwlpc"]
+[ext_resource type="Shader" path="res://Assets/Shaders/ToonShader.gdshader" id="3_fmhqt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6utof"]
+shader = ExtResource("2_rwlpc")
+shader_parameter/pixelSize = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_g3cja"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1pa1r"]
+render_priority = 0
+shader = ExtResource("3_fmhqt")
+shader_parameter/RimPower = 1.0
+shader_parameter/RimCutOff = 0.5
+shader_parameter/RimSmoothness = 0.05
+shader_parameter/RimLightBrightness = 20.0
+shader_parameter/SubSurfDistortion = 1.0
+shader_parameter/SubSurfTint = null
+shader_parameter/SubSurfBrightness = 3.0
+shader_parameter/SubSurfCutoff = 0.5
+shader_parameter/SubSurfSmoothness = 0.05
+shader_parameter/ToonRampOffset = 0.5
+shader_parameter/ToonRampSmoothness = 0.05
+shader_parameter/ToonRampTinting = null
+
+[sub_resource type="Animation" id="Animation_ax4v1"]
+length = 0.001
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_couvl"]
+resource_name = "Rotate"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 1.5708, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vhfcd"]
+_data = {
+"RESET": SubResource("Animation_ax4v1"),
+"Rotate": SubResource("Animation_couvl")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e6vtf"]
+
+[node name="Enemy" type="CharacterBody2D" groups=["Enemy"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_20m3r")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_6utof")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(80, 80)
+render_target_update_mode = 4
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport"]
+mesh = SubResource("BoxMesh_g3cja")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("ShaderMaterial_1pa1r")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewportContainer/SubViewport/MeshInstance3D"]
+autoplay = "Rotate"
+libraries = {
+"": SubResource("AnimationLibrary_vhfcd")
+}
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 0.787613, 0.61617, 0, -0.61617, 0.787613, 0, 1.47446, 1.65038)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(0.353553, 0.707107, -0.612372, -0.353553, 0.707107, 0.612372, 0.866025, 0, 0.5, 0, 0, 0)
+
+[node name="Hitbox" type="Area2D" parent="." groups=["Enemy"]]
+collision_layer = 4
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_e6vtf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_e6vtf")

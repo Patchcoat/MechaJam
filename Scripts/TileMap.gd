@@ -34,7 +34,6 @@ func use_tilemap(world_coordinate, current_weapon, seeds = null):
 		layer -= 1
 		tile_data = get_cell_tile_data(layer, tile_coordinate)
 	var tile_type = tile_data.get_custom_data("Type")
-	print(tile_coordinate)
 	# digging grass
 	if current_weapon == WeaponEnum.Weapon.DIG and tile_type == 1:
 		make_dirt(tile_coordinate)
@@ -44,6 +43,18 @@ func use_tilemap(world_coordinate, current_weapon, seeds = null):
 	# planting
 	if current_weapon == WeaponEnum.Weapon.PLANT and tile_type == 2:
 		plant_seed(tile_coordinate, seeds)
+
+func get_overlapping_tiles(top_left, bottom_right, layer) -> Array:
+	var tiles = []
+	var positions : PackedVector2Array = []
+	var top_left_tile = local_to_map(to_local(top_left))
+	var bottom_right_tile = local_to_map(to_local(bottom_right))
+	for x in range(top_left_tile.x, bottom_right_tile.x):
+		for y in range(top_left_tile.y, bottom_right_tile.y):
+			var tile_coordinate = Vector2(x, y)
+			tiles.append(get_cell_tile_data(layer, tile_coordinate))
+			positions.append(to_global(map_to_local(tile_coordinate)))
+	return [tiles, positions]
 
 func water_dirt(cordinates):
 	set_cell(0, cordinates, 1, Vector2i(4, 21), 1)
