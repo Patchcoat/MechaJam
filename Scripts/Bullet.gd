@@ -16,7 +16,6 @@ func _physics_process(delta):
 		queue_free()
 	last_distance  = global_position.distance_squared_to(destination)
 
-
 func _on_body_entered(_body):
 	#queue_free()
 	pass

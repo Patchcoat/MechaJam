@@ -8,8 +8,9 @@ extends CharacterBody2D
 @export var scrap = 0
 
 var move = Vector2(0,0)
-var current_weapon = WeaponEnum.Weapon.DIG
+var current_weapon_ = WeaponEnum.Weapon.DIG
 var menu_visible = false
+var farming = true
 
 func _process(_delta):
 	movement()
@@ -97,14 +98,21 @@ func _missiles_set(new_missiles):
 	missiles = new_missiles
 	%MissileCount.next = "Missiles: " + str(missiles)
 
-func _on_dig_pressed():
-	current_weapon = WeaponEnum.Weapon.DIG
-
-func _on_water_pressed():
-	current_weapon = WeaponEnum.Weapon.WATER
-
 func _on_plant_pressed():
-	current_weapon = WeaponEnum.Weapon.PLANT
+	var left_weapon = $LeftWeapon.get_children()[0]
+	var right_weapon = $RightWeapon.get_children()[0]
+	var missile_launcher = $MissileLauncher.get_children()[0]
+	left_weapon.farming = true
+	right_weapon.farming = true
+	missile_launcher.farming = true
+
+func _on_fight_pressed():
+	var left_weapon = $LeftWeapon.get_children()[0]
+	var right_weapon = $RightWeapon.get_children()[0]
+	var missile_launcher = $MissileLauncher.get_children()[0]
+	left_weapon.farming = false
+	right_weapon.farming = false
+	missile_launcher.farming = false
 
 func _on_radial_menu_hovered(child):
 	%Selection.text = child.name

@@ -9,9 +9,6 @@ var alive : bool = true
 func _ready():
 	take_damage.connect(hit)
 
-func _physics_process(delta):
-	pass
-
 func hit(damage):
 	health -= damage
 	if health <= 0:

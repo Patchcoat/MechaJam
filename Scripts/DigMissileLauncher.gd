@@ -29,9 +29,7 @@ func press() -> void:
 	$Crosshairs.multimesh.instance_count = 0
 	$Crosshairs.visible = true
 
-func hold() -> void:
-	if firing:
-		return
+func farm_target():
 	current_position = get_global_mouse_position()
 	var width = abs(current_position.x - start_position.x)
 	var height = abs(current_position.y - start_position.y)
@@ -51,19 +49,40 @@ func hold() -> void:
 		var new_transform : Transform2D = Transform2D(crosshair_rotation, packed_positions[i])
 		$Crosshairs.multimesh.set_instance_transform_2d(i, new_transform)
 
-func release() -> void:
+func enemy_target():
+	pass
+
+func hold() -> void:
 	if firing:
 		return
+	if farming:
+		farm_target()
+	else:
+		enemy_target()
+
+func farm_fire():
 	current_position = get_global_mouse_position()
 	%CollisionShape2D.shape.size = Vector2(0,0)
 	%CollisionShape2D.disabled = true
 	%CollisionShape2D.visible = false
 	$Crosshairs.visible = false
+	positions = packed_positions
+
+func enemy_fire():
+	pass
+
+func release() -> void:
+	if firing:
+		return
+	if farming:
+		farm_fire()
+	else:
+		enemy_fire()
+	if positions.size() == 0:
+		return
+	positions.shuffle()
 	$Timer.start()
 	firing = true
-	positions = packed_positions
-	positions.shuffle()
-	print(positions)
 
 func _on_timer_timeout():
 	if missile_index >= positions.size():

@@ -1,6 +1,8 @@
 extends Node2D
 class_name Weapon
 
+var farming = true
+
 func press() -> void:
 	pass
 
@@ -9,7 +11,7 @@ func hold() -> void:
 
 func release() -> void:
 	pass
-
+	
 func shoot_bullet(bullet, spawn_position, current_weapon, seeds=null):
 	var new_bullet = bullet.instantiate()
 	new_bullet.weapon = current_weapon

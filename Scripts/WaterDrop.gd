@@ -1,7 +1,7 @@
 extends Area2D
 
 @export var weapon : WeaponEnum.Weapon = WeaponEnum.Weapon.WATER
-@export var damage : int = 1
+@export var damage : int = 5
 
 var speed: int = 300
 var destination: Vector2
