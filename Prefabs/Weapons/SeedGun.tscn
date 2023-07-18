@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://xy4h8c210goo"]
+
+[ext_resource type="Script" path="res://Scripts/SeedGun.gd" id="1_r062m"]
+
+[node name="SeedGun" type="Node2D"]
+script = ExtResource("1_r062m")

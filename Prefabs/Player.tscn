@@ -1,18 +1,37 @@
-[gd_scene load_steps=15 format=3 uid="uid://bpryjurbsm8k8"]
+[gd_scene load_steps=19 format=3 uid="uid://bpryjurbsm8k8"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_koxt2"]
 [ext_resource type="Texture2D" uid="uid://bdgqx82pyrm10" path="res://Assets/Square.png" id="2_8n1x8"]
 [ext_resource type="Shader" path="res://Assets/Shaders/Pixelize.gdshader" id="2_fclcm"]
 [ext_resource type="Script" path="res://addons/radial_menu/RadialMenu.gd" id="2_xkee3"]
 [ext_resource type="Texture2D" uid="uid://n51f6mixwrbo" path="res://Assets/Icons/Icon1.tres" id="3_8yun3"]
+[ext_resource type="Shader" path="res://Assets/Shaders/ToonShader.gdshader" id="3_n0p7u"]
 [ext_resource type="Texture2D" uid="uid://cowe5rtsv67hl" path="res://Assets/Icons/Icon2.tres" id="4_hac62"]
-[ext_resource type="Texture2D" uid="uid://b22tytfdo4usv" path="res://Assets/Icons/Icon3.tres" id="5_k0j7m"]
+[ext_resource type="PackedScene" uid="uid://xy4h8c210goo" path="res://Prefabs/Weapons/SeedGun.tscn" id="5_3seao"]
+[ext_resource type="PackedScene" uid="uid://1a4su2pkmws8" path="res://Prefabs/Weapons/WaterHose.tscn" id="6_wky5i"]
+[ext_resource type="PackedScene" uid="uid://dqkywaicd1u56" path="res://Prefabs/Weapons/DigMissileLauncher.tscn" id="7_fjece"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1ntao"]
 shader = ExtResource("2_fclcm")
 shader_parameter/pixelSize = 2
 
 [sub_resource type="BoxMesh" id="BoxMesh_4dtle"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7mxlx"]
+render_priority = 0
+shader = ExtResource("3_n0p7u")
+shader_parameter/RimPower = 1.0
+shader_parameter/RimCutOff = 0.5
+shader_parameter/RimSmoothness = 0.05
+shader_parameter/RimLightBrightness = 20.0
+shader_parameter/SubSurfDistortion = 1.0
+shader_parameter/SubSurfTint = null
+shader_parameter/SubSurfBrightness = 3.0
+shader_parameter/SubSurfCutoff = 0.5
+shader_parameter/SubSurfSmoothness = 0.05
+shader_parameter/ToonRampOffset = 0.5
+shader_parameter/ToonRampSmoothness = 0.05
+shader_parameter/ToonRampTinting = null
 
 [sub_resource type="Animation" id="Animation_ax4v1"]
 length = 0.001
@@ -86,6 +105,7 @@ render_target_update_mode = 4
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport"]
 mesh = SubResource("BoxMesh_4dtle")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("ShaderMaterial_7mxlx")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewportContainer/SubViewport/MeshInstance3D"]
 autoplay = "Rotate"
@@ -108,14 +128,25 @@ shape = SubResource("RectangleShape2D_pth8k")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="TileQuery" type="Area2D" parent="."]
-collision_layer = 32
-collision_mask = 32
+[node name="ItemPickup" type="Area2D" parent="."]
+collision_mask = 64
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TileQuery"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ItemPickup"]
 shape = SubResource("CircleShape2D_mdcdi")
 
 [node name="Muzzle" type="Marker2D" parent="."]
+
+[node name="LeftWeapon" type="Marker2D" parent="."]
+
+[node name="SeedGun" parent="LeftWeapon" instance=ExtResource("5_3seao")]
+
+[node name="RightWeapon" type="Marker2D" parent="."]
+
+[node name="WaterHose" parent="RightWeapon" instance=ExtResource("6_wky5i")]
+
+[node name="MissileLauncher" type="Marker2D" parent="."]
+
+[node name="DiggingMissiles" parent="MissileLauncher" instance=ExtResource("7_fjece")]
 
 [node name="Control" type="Control" parent="."]
 visible = false
@@ -151,7 +182,7 @@ bevel_enabled = true
 modulate_enabled = true
 icon_shift = 10.0
 
-[node name="Dig" type="TextureButton" parent="Control/RadialMenu"]
+[node name="Plant" type="TextureButton" parent="Control/RadialMenu"]
 modulate = Color(0.713726, 0.713726, 0.713726, 1)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -161,21 +192,13 @@ texture_normal = ExtResource("3_8yun3")
 texture_pressed = ExtResource("3_8yun3")
 texture_hover = ExtResource("3_8yun3")
 
-[node name="Water" type="TextureButton" parent="Control/RadialMenu"]
+[node name="Fight" type="TextureButton" parent="Control/RadialMenu"]
 modulate = Color(0.713726, 0.713726, 0.713726, 1)
 layout_mode = 2
 focus_mode = 0
 texture_normal = ExtResource("4_hac62")
 texture_pressed = ExtResource("4_hac62")
 texture_hover = ExtResource("4_hac62")
-
-[node name="Plant" type="TextureButton" parent="Control/RadialMenu"]
-modulate = Color(0.713726, 0.713726, 0.713726, 1)
-layout_mode = 2
-focus_mode = 0
-texture_normal = ExtResource("5_k0j7m")
-texture_pressed = ExtResource("5_k0j7m")
-texture_hover = ExtResource("5_k0j7m")
 
 [node name="Selection" type="Label" parent="Control"]
 unique_name_in_owner = true
@@ -195,8 +218,32 @@ text = "Water"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[connection signal="body_shape_entered" from="TileQuery" to="." method="_on_tile_query_body_shape_entered"]
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="Container" type="Control" parent="GUI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/Container"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BulletCount" type="Label" parent="GUI/Container/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Bullets: 0"
+
+[node name="MissileCount" type="Label" parent="GUI/Container/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Missiles: 0"
+
+[connection signal="area_entered" from="ItemPickup" to="." method="_on_item_pickup_area_entered"]
 [connection signal="hovered" from="Control/RadialMenu" to="." method="_on_radial_menu_hovered"]
-[connection signal="pressed" from="Control/RadialMenu/Dig" to="." method="_on_dig_pressed"]
-[connection signal="pressed" from="Control/RadialMenu/Water" to="." method="_on_water_pressed"]
 [connection signal="pressed" from="Control/RadialMenu/Plant" to="." method="_on_plant_pressed"]
+[connection signal="pressed" from="Control/RadialMenu/Fight" to="." method="_on_fight_pressed"]

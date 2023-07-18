@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://dqkywaicd1u56"]
+
+[ext_resource type="Script" path="res://Scripts/DigMissileLauncher.gd" id="1_jd5lb"]
+[ext_resource type="Script" path="res://Scripts/MissileTargetDrawing.gd" id="2_l40wj"]
+[ext_resource type="Texture2D" uid="uid://cipgbn5071a4h" path="res://Assets/Crosshair.png" id="3_ns5fl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r8583"]
+size = Vector2(0, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_226e6"]
+size = Vector2(32, 32)
+
+[sub_resource type="MultiMesh" id="MultiMesh_pa1op"]
+mesh = SubResource("QuadMesh_226e6")
+
+[node name="DiggingMissiles" type="Node2D"]
+script = ExtResource("1_jd5lb")
+
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+collision_layer = 32
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+unique_name_in_owner = true
+z_index = 2
+shape = SubResource("RectangleShape2D_r8583")
+disabled = true
+script = ExtResource("2_l40wj")
+
+[node name="Crosshairs" type="MultiMeshInstance2D" parent="."]
+visible = false
+z_index = 2
+multimesh = SubResource("MultiMesh_pa1op")
+texture = ExtResource("3_ns5fl")
+
+[node name="Node2D" type="Node2D" parent="."]
+visible = false
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.05
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

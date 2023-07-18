@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://di1bilqcaumd3"]
+[gd_scene load_steps=5 format=3 uid="uid://di1bilqcaumd3"]
 
-[ext_resource type="Script" path="res://Scripts/Bullet.gd" id="1_5dshf"]
-[ext_resource type="Texture2D" uid="uid://q36mp36pcvl" path="res://Assets/Bullet.png" id="1_k7psi"]
-[ext_resource type="PackedScene" uid="uid://bhkl6ywxddexa" path="res://Prefabs/Plant.tscn" id="2_h4vsg"]
+[ext_resource type="Script" path="res://Scripts/Bullet.gd" id="1_t44sa"]
+[ext_resource type="Texture2D" uid="uid://q36mp36pcvl" path="res://Assets/Bullet.png" id="2_obk2o"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fjbil"]
 radius = 4.12311
@@ -11,13 +10,14 @@ radius = 4.12311
 size = Vector2(13, 8)
 
 [node name="Bullet" type="Area2D"]
-script = ExtResource("1_5dshf")
-seeds = ExtResource("2_h4vsg")
+collision_layer = 16
+collision_mask = 6
+script = ExtResource("1_t44sa")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 position = Vector2(-8, 0)
-texture = ExtResource("1_k7psi")
+texture = ExtResource("2_obk2o")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-4, 0)
@@ -31,5 +31,6 @@ shape = SubResource("RectangleShape2D_28yie")
 wait_time = 5.0
 autostart = true
 
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
