@@ -4,17 +4,19 @@ extends Area2D
 @export var seeds : PackedScene = null
 @export var damage : int = 10
 @export var detonation_distance : float = 10
+@export var threshold : float = 0.5
 
 var speed: int = 750
 var destination
 var last_detonation_distance_squared: float = detonation_distance * detonation_distance
+var lerp_strength = 0.2
+var threshold_count = 0
 
 func _physics_process(delta):
-	var destination_position
+	var destination_position = Vector2(0,0)
 	if destination is Vector2:
-		print("Destination")
 		destination_position = destination
-	else:
+	elif is_instance_valid(destination):
 		destination_position = destination.transform.position
 	position += transform.x * speed * delta
 	if global_position.distance_squared_to(destination_position) < last_detonation_distance_squared:
@@ -23,7 +25,10 @@ func _physics_process(delta):
 		queue_free()
 	
 	var target_rotation = rotation + get_angle_to(destination_position)
-	rotation = lerp(rotation, target_rotation, 0.2)
+	rotation = lerp(rotation, target_rotation, lerp_strength)
+	threshold_count += delta
+	if threshold_count > threshold:
+		lerp_strength = 0.8
 
 func _on_body_entered(_body):
 	#queue_free()

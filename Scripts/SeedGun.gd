@@ -15,6 +15,9 @@ func shoot(player) -> void:
 		shoot_bullet(bullet, transform, WeaponEnum.Weapon.ENEMY)
 	can_spawn = false
 
+func set_seeds(new_seeds):
+	seeds = new_seeds
+
 func press(_player) -> void:
 	$Timer.start()
 

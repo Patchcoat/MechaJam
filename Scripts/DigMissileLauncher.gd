@@ -46,7 +46,8 @@ func farm_target():
 	var data = GlobalTileMap.map.get_overlapping_tiles(top_left, bottom_right, 1)
 	tiles = data[0]
 	packed_positions = data[1]
-	packed_positions.resize(missle_count)
+	if packed_positions.size() > missle_count:
+		packed_positions.resize(missle_count)
 	var instances : int = packed_positions.size()
 	$Crosshairs.global_position = Vector2(0,0)
 	$Crosshairs.multimesh.instance_count = instances
@@ -85,14 +86,16 @@ func release(player) -> void:
 		enemy_fire()
 	if positions.size() == 0:
 		return
-	positions.resize(missle_count)
+	if packed_positions.size() > missle_count:
+		positions.resize(missle_count)
 	positions.shuffle()
+	print("Boom")
 	$Timer.start()
 	firing = true
 	player_ref = player
 
 func _on_timer_timeout():
-	if missile_index >= positions.size() and player_ref.missiles <= 0:
+	if missile_index >= positions.size() or player_ref.missiles <= 0:
 		$Timer.stop()
 		firing = false
 		missile_index = 0

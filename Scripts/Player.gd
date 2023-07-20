@@ -1,5 +1,9 @@
 extends CharacterBody2D
 
+var bulletSeeds = preload("res://Prefabs/Plants/BulletPlant.tscn")
+var missileSeeds = preload("res://Prefabs/Plants/MissilePlant.tscn")
+var towerSeeds = preload("res://Prefabs/Plants/TowerPlant.tscn")
+
 @export var move_speed = 300
 @export var acceleration = 0.2
 @export var camera_offset_strength = 100
@@ -23,23 +27,20 @@ func _ready():
 func _process(_delta):
 	movement()
 	mouselook()
-	if Input.is_action_pressed("ShowRadialMenu") and !$Control.visible:
-		$Control.visible = true
-	elif !Input.is_action_pressed("ShowRadialMenu") and $Control.visible:
-		$Control.visible = false
-	activate_weapons()
+	if Input.is_action_pressed("ShowRadialMenu") and !$PlantFight.visible and !$SeedMenu.visible:
+		$PlantFight.visible = true
+	elif !Input.is_action_pressed("ShowRadialMenu") and $PlantFight.visible:
+		$PlantFight.visible = false
+	if Input.is_action_pressed("ShowSeedMenu") and !$SeedMenu.visible and !$PlantFight.visible:
+		$SeedMenu.visible = true
+	elif !Input.is_action_pressed("ShowSeedMenu") and $SeedMenu.visible:
+		$SeedMenu.visible = false
+	if !$SeedMenu.visible and !$PlantFight.visible:
+		activate_weapons()
 
 func _input(event):
-	if !$Control.visible and !menu_visible:
+	if !$PlantFight.visible and !menu_visible:
 		activate_weapons(event)
-	if event.is_action_pressed("OpenMechMenu"):
-		%UIAnimationPlayer.play("SlideOut" if menu_visible else "SlideIn")
-		menu_visible = !menu_visible
-	if event is InputEventKey and event.pressed:
-		if event.keycode == KEY_T:
-			Music.transition("Song1")
-		elif event.keycode == KEY_R:
-			Music.transition("Song2")
 
 func activate_weapons(event = null):
 	if event == null:
@@ -130,8 +131,20 @@ func _on_fight_pressed():
 	right_weapon.farming = false
 	missile_launcher.farming = false
 
+func _on_bullet_seeds_pressed():
+	$LeftWeapon/SeedGun.set_seeds(bulletSeeds)
+
+func _on_missile_seeds_pressed():
+	$LeftWeapon/SeedGun.set_seeds(missileSeeds)
+
+func _on_turret_seeds_pressed():
+	$LeftWeapon/SeedGun.set_seeds(towerSeeds)
+
 func _on_radial_menu_hovered(child):
 	%Selection.text = child.name
+
+func _on_radial2_menu_hovered(child):
+	%Selection2.text = child.name
 
 func _on_item_pickup_area_entered(area):
 	if area.is_in_group("Pickup"):

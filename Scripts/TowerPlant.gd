@@ -8,7 +8,6 @@ var current_stage : int = 0 : set = change_stage
 var turret_online : bool = false
 
 func _ready():
-	$Timer.wait_time = growth_timer
 	tile_coordinates = GlobalTileMap.map.local_to_map(position)
 
 func _physics_process(delta):
@@ -19,8 +18,13 @@ func change_stage(next_stage):
 	current_stage = clamp(next_stage, 0, plant_cycle.size())
 	texture = plant_cycle[clamp(current_stage, 0, plant_cycle.size()-1)]
 
-func _on_timer_timeout():
-	if turret_online:
+func _on_animation_player_animation_finished(anim_name):
+	print(anim_name)
+	if anim_name == "TurretSmall":
+		return
+	if anim_name == "TurretBig":
+		return
+	if anim_name == "TurretGrow":
 		return
 	assert(is_instance_valid(GlobalTileMap.map))
 	var tile_data = GlobalTileMap.map.get_cell_tile_data(0, tile_coordinates)
@@ -28,12 +32,5 @@ func _on_timer_timeout():
 	var alternative = GlobalTileMap.map.get_cell_alternative_tile(0, tile_coordinates)
 	if tile_data.get_custom_data("Type") == 2 and alternative == 0:
 		return
-	# check that another crop isn't in the way
-	if $Area2D.has_overlapping_areas():
-		print("Can't Grow")
-		return
-	
-	current_stage += 1
-	# after growing all the way, revert to a pre-harvest state and make the dirt dry
 	if current_stage == plant_cycle.size():
 		turret_online = true
