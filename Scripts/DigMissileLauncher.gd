@@ -12,15 +12,19 @@ var rotation_speed : float = 0.5
 var crosshair_rotation : float = 0
 var missile_index : int = 0
 
+var missle_count : int = 0
+var player_ref
+
 func _ready():
 	%CollisionShape2D.disabled = true
 
 func _physics_process(delta):
 	crosshair_rotation += rotation_speed * 2 * PI * delta
 
-func press() -> void:
-	if firing:
+func press(player) -> void:
+	if firing or player.missiles <= 0:
 		return
+	missle_count = player.missiles
 	start_position = get_global_mouse_position()
 	%CollisionShape2D.shape.size = Vector2(0,0)
 	%CollisionShape2D.global_position = start_position
@@ -42,6 +46,7 @@ func farm_target():
 	var data = GlobalTileMap.map.get_overlapping_tiles(top_left, bottom_right, 1)
 	tiles = data[0]
 	packed_positions = data[1]
+	packed_positions.resize(missle_count)
 	var instances : int = packed_positions.size()
 	$Crosshairs.global_position = Vector2(0,0)
 	$Crosshairs.multimesh.instance_count = instances
@@ -52,8 +57,8 @@ func farm_target():
 func enemy_target():
 	pass
 
-func hold() -> void:
-	if firing:
+func hold(player) -> void:
+	if firing or player.missiles <= 0:
 		return
 	if farming:
 		farm_target()
@@ -71,24 +76,28 @@ func farm_fire():
 func enemy_fire():
 	pass
 
-func release() -> void:
-	if firing:
+func release(player) -> void:
+	if firing or player.missiles <= 0:
 		return
 	if farming:
 		farm_fire()
-	else:
+	elif !farming:
 		enemy_fire()
 	if positions.size() == 0:
 		return
+	positions.resize(missle_count)
 	positions.shuffle()
 	$Timer.start()
 	firing = true
+	player_ref = player
 
 func _on_timer_timeout():
-	if missile_index >= positions.size():
+	if missile_index >= positions.size() and player_ref.missiles <= 0:
 		$Timer.stop()
 		firing = false
 		missile_index = 0
+		return
+	player_ref.missiles -= 1
 	var new_missile = missile.instantiate()
 	new_missile.weapon = WeaponEnum.Weapon.DIG
 	get_parent().get_parent().get_parent().add_child(new_missile)

@@ -1,23 +1,27 @@
 extends Sprite2D
 
-var plant_drop = preload("res://Prefabs/Pickups/BulletPickup.tscn")
-
 @export var growth_timer : float = 1
 @export var plant_cycle = []
-@export var harvest_stage = 2
 
 var tile_coordinates: Vector2i
 var current_stage : int = 0 : set = change_stage
+var turret_online : bool = false
 
 func _ready():
 	$Timer.wait_time = growth_timer
 	tile_coordinates = GlobalTileMap.map.local_to_map(position)
+
+func _physics_process(delta):
+	if !turret_online:
+		return
 
 func change_stage(next_stage):
 	current_stage = clamp(next_stage, 0, plant_cycle.size())
 	texture = plant_cycle[clamp(current_stage, 0, plant_cycle.size()-1)]
 
 func _on_timer_timeout():
+	if turret_online:
+		return
 	assert(is_instance_valid(GlobalTileMap.map))
 	var tile_data = GlobalTileMap.map.get_cell_tile_data(0, tile_coordinates)
 	# check if the dirt tile is watered before growing
@@ -32,7 +36,4 @@ func _on_timer_timeout():
 	current_stage += 1
 	# after growing all the way, revert to a pre-harvest state and make the dirt dry
 	if current_stage == plant_cycle.size():
-		var new_drop = plant_drop.instantiate()
-		add_child(new_drop)
-		current_stage = harvest_stage
-		GlobalTileMap.map.dry_dirt(tile_coordinates)
+		turret_online = true

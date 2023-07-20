@@ -1,0 +1,38 @@
+[gd_scene load_steps=14 format=3 uid="uid://bhkl6ywxddexa"]
+
+[ext_resource type="Script" path="res://Scripts/Plant.gd" id="1_3crlq"]
+[ext_resource type="Texture2D" uid="uid://da4q3rtq3of7k" path="res://Assets/Crops/Bullet_Plant_PngSequence/Bullet_Grow0 (1).png" id="1_h0aap"]
+[ext_resource type="Texture2D" uid="uid://pjdfi52f3glc" path="res://Assets/Crops/Bullet_Plant_PngSequence/Bullet_Grow0 (2).png" id="3_0wlrj"]
+[ext_resource type="Texture2D" uid="uid://cj3pbh8r8fttt" path="res://Assets/Crops/Bullet_Plant_PngSequence/Bullet_Grow0 (3).png" id="4_0881v"]
+[ext_resource type="Texture2D" uid="uid://cqu5i17ra13l" path="res://Assets/Crops/Bullet_Plant_PngSequence/Bullet_Grow0 (4).png" id="5_krx01"]
+[ext_resource type="Texture2D" uid="uid://bwshj472l824t" path="res://Assets/Crops/Bullet_Plant_PngSequence/Bullet_Grow0 (5).png" id="6_1egwu"]
+[ext_resource type="Texture2D" uid="uid://bpahvp6cq1ttw" path="res://Assets/Crops/Bullet_Plant_PngSequence/Bullet_Grow0 (6).png" id="7_x27p8"]
+[ext_resource type="Texture2D" uid="uid://cibg75kd6x53j" path="res://Assets/Crops/Bullet_Plant_PngSequence/Bullet_Grow0 (7).png" id="8_gfvym"]
+[ext_resource type="Texture2D" uid="uid://c0ctl8fdfud5v" path="res://Assets/Crops/Bullet_Plant_PngSequence/Bullet_Grow0 (8).png" id="9_7uirq"]
+[ext_resource type="Texture2D" uid="uid://cymflmkkeo1m6" path="res://Assets/Crops/Bullet_Plant_PngSequence/Bullet_Grow0 (9).png" id="10_737s5"]
+[ext_resource type="Texture2D" uid="uid://cp3uq0rctl864" path="res://Assets/Crops/Bullet_Plant_PngSequence/Bullet_Grow0 (10).png" id="11_khd2a"]
+[ext_resource type="Texture2D" uid="uid://ptmtppqshi65" path="res://Assets/Crops/Bullet_Plant_PngSequence/Bullet_Grow0 (11).png" id="12_0a3bb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fdqor"]
+radius = 7.0
+
+[node name="Plant" type="Sprite2D"]
+texture_filter = 1
+texture = ExtResource("1_h0aap")
+script = ExtResource("1_3crlq")
+growth_timer = 0.5
+plant_cycle = [ExtResource("1_h0aap"), ExtResource("3_0wlrj"), ExtResource("4_0881v"), ExtResource("5_krx01"), ExtResource("6_1egwu"), ExtResource("7_x27p8"), ExtResource("8_gfvym"), ExtResource("9_7uirq"), ExtResource("10_737s5"), ExtResource("11_khd2a"), ExtResource("12_0a3bb")]
+harvest_stage = 0
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 64
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_fdqor")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

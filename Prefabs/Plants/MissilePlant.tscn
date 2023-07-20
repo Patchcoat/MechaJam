@@ -1,0 +1,37 @@
+[gd_scene load_steps=14 format=3 uid="uid://blf5fge20qg7q"]
+
+[ext_resource type="Script" path="res://Scripts/Plant.gd" id="2_p5vte"]
+[ext_resource type="Texture2D" uid="uid://4hnsb8rnb8f1" path="res://Assets/Crops/Missile_Plant_PngSequence/Missile_Tower_000.png" id="3_qtb08"]
+[ext_resource type="Texture2D" uid="uid://qadybyln1noh" path="res://Assets/Crops/Missile_Plant_PngSequence/Missile_Tower_001.png" id="4_7ypue"]
+[ext_resource type="Texture2D" uid="uid://cqfkfcq577h8i" path="res://Assets/Crops/Missile_Plant_PngSequence/Missile_Tower_002.png" id="5_a6kos"]
+[ext_resource type="Texture2D" uid="uid://cxbncm2xoxyfe" path="res://Assets/Crops/Missile_Plant_PngSequence/Missile_Tower_003.png" id="6_edib1"]
+[ext_resource type="Texture2D" uid="uid://co0idxhdmr7nd" path="res://Assets/Crops/Missile_Plant_PngSequence/Missile_Tower_004.png" id="7_ucrak"]
+[ext_resource type="Texture2D" uid="uid://wrqfftilk3gq" path="res://Assets/Crops/Missile_Plant_PngSequence/Missile_Tower_005.png" id="8_fxqq2"]
+[ext_resource type="Texture2D" uid="uid://c7qdbwhosro82" path="res://Assets/Crops/Missile_Plant_PngSequence/Missile_Tower_006.png" id="9_uhu4h"]
+[ext_resource type="Texture2D" uid="uid://dbnrpp3ab1n" path="res://Assets/Crops/Missile_Plant_PngSequence/Missile_Tower_007.png" id="10_xnnqr"]
+[ext_resource type="Texture2D" uid="uid://b08a2nuiveuqi" path="res://Assets/Crops/Missile_Plant_PngSequence/Missile_Tower_008.png" id="11_jl15x"]
+[ext_resource type="Texture2D" uid="uid://bjm8n8r4moxby" path="res://Assets/Crops/Missile_Plant_PngSequence/Missile_Tower_009.png" id="12_57g5u"]
+[ext_resource type="Texture2D" uid="uid://hl1fso56ndam" path="res://Assets/Crops/Missile_Plant_PngSequence/Missile_Tower_010.png" id="13_31qin"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fdqor"]
+radius = 7.0
+
+[node name="Plant" type="Sprite2D"]
+texture_filter = 1
+texture = ExtResource("3_qtb08")
+script = ExtResource("2_p5vte")
+plant_cycle = [ExtResource("3_qtb08"), ExtResource("4_7ypue"), ExtResource("5_a6kos"), ExtResource("6_edib1"), ExtResource("7_ucrak"), ExtResource("8_fxqq2"), ExtResource("9_uhu4h"), ExtResource("10_xnnqr"), ExtResource("11_jl15x"), ExtResource("12_57g5u"), ExtResource("13_31qin")]
+harvest_stage = 6
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 64
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_fdqor")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

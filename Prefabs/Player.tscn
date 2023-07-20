@@ -243,6 +243,16 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Missiles: 0"
 
+[node name="WaterCount" type="Label" parent="GUI/Container/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Water: 0"
+
+[node name="NapalmCount" type="Label" parent="GUI/Container/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Napalm: 0"
+
 [connection signal="area_entered" from="ItemPickup" to="." method="_on_item_pickup_area_entered"]
 [connection signal="hovered" from="Control/RadialMenu" to="." method="_on_radial_menu_hovered"]
 [connection signal="pressed" from="Control/RadialMenu/Plant" to="." method="_on_plant_pressed"]

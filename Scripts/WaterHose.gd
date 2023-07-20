@@ -5,12 +5,14 @@ var fire = preload("res://Prefabs/Projectiles/FireDrop.tscn")
 
 var can_spawn = false
 
-func hold() -> void:
+func hold(player) -> void:
 	if !can_spawn:
 		return
-	if farming:
+	if farming and player.water > 0:
+		player.water -= 1
 		shoot_bullet(water, transform, WeaponEnum.Weapon.WATER)
-	else:
+	elif !farming and player.napalm > 0:
+		player.napalm -= 1
 		shoot_bullet(fire, transform, WeaponEnum.Weapon.ENEMY)
 	can_spawn = false
 
