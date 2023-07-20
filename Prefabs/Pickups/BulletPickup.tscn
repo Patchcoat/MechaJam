@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bvc6rwviv5jbl"]
 
-[ext_resource type="Script" path="res://Scripts/Pickup.gd" id="1_h85qj"]
-[ext_resource type="Texture2D" uid="uid://caynycr4w8yty" path="res://Assets/Crops/Crop6.tres" id="2_agwbw"]
+[ext_resource type="Script" path="res://Scripts/Pickup.gd" id="1_i7oa6"]
+[ext_resource type="Texture2D" uid="uid://caynycr4w8yty" path="res://Assets/Crops/Crop6.tres" id="2_r3866"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fsam8"]
 radius = 15.0
@@ -9,11 +9,11 @@ radius = 15.0
 [node name="Pickup" type="Area2D" groups=["Bullet", "Pickup"]]
 collision_layer = 64
 monitoring = false
-script = ExtResource("1_h85qj")
+script = ExtResource("1_i7oa6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = ExtResource("2_agwbw")
+texture = ExtResource("2_r3866")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_fsam8")

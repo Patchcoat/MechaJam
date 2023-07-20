@@ -3,13 +3,13 @@ class_name Weapon
 
 var farming = true
 
-func press() -> void:
+func press(_player) -> void:
 	pass
 
-func hold() -> void:
+func hold(_player) -> void:
 	pass
 
-func release() -> void:
+func release(_player) -> void:
 	pass
 	
 func shoot_bullet(bullet, spawn_position, current_weapon, seeds=null):

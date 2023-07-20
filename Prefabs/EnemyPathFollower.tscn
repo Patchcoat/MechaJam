@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://6xukefol4qdv"]
+
+[ext_resource type="Script" path="res://Scripts/EnemyPath.gd" id="1_6uahs"]
+
+[node name="EnemyPathFollower" type="PathFollow2D"]
+position = Vector2(933, 144)
+rotates = false
+loop = false
+script = ExtResource("1_6uahs")
+
+[node name="180005" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true

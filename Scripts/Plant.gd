@@ -1,8 +1,8 @@
 extends Sprite2D
 
-var plant_drop = preload("res://Prefabs/Pickup.tscn")
+var plant_drop = preload("res://Prefabs/Pickups/BulletPickup.tscn")
 
-@export var growth_timer = 1
+@export var growth_timer : float = 1
 @export var plant_cycle = []
 @export var harvest_stage = 2
 
